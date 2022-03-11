@@ -2,11 +2,9 @@ package com.do_class.devweek.Controller;
 
 import com.do_class.devweek.Entity.Regiao;
 import com.do_class.devweek.Repository.RegiaoRepo;
-import org.apache.catalina.LifecycleState;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,12 +22,24 @@ public class ControllerRegiao {
         return repository.findAll();
     }
 
-    public Optional getRegiaoById(@PathVariable Long id) {
-        return repository.findById(id);
-    }
+    @GetMapping("/regiao/{id")
+    public ResponseEntity<?> getRegiaoById(@PathVariable Long id) {
+        Optional regiaoEscolhidaOptional = repository.findById(id);
 
+        if (regiaoEscolhidaOptional.isPresent()) {
+            Object regiaoEscolhida = regiaoEscolhidaOptional.get();
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
     @PostMapping("/regiao/novo")
     public  void  putRegiao(Regiao newRegiao) {
         repository.save(newRegiao);
+    }
+
+    @DeleteMapping("/regiao/delete/{id}")
+    public void deleteRegiao(@PathVariable Long id) {
+        repository.deleteById(id);
+
     }
 }
