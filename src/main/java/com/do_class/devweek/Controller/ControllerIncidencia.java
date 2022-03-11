@@ -31,7 +31,7 @@ public class ControllerIncidencia {
     public ResponseEntity<Incidencia> findIncidenciaById(@PathVariable Long id){
         Optional<Incidencia> incidenciaOptional = iRepository.findById(id);
         if (incidenciaOptional.isPresent()){
-            Incidencia incidenciaUnid = (Incidencia) incidenciaOptional.get();
+            Incidencia incidenciaUnid = incidenciaOptional.get();
             return new ResponseEntity<>(incidenciaUnid, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
